@@ -23,7 +23,6 @@ export function BorderCard({
 }) {
   const canvasRef = useRef<ReactSketchCanvasRef | null>(null);
   const [layoutReady, setLayoutReady] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const id = setTimeout(() => setLayoutReady(true), 0);
@@ -116,7 +115,7 @@ export function BorderCard({
             </svg>
           </Button>
         </div>
-        <HoldToCopyButton canvasRef={canvasRef} setCopied={setCopied} />
+        <HoldToCopyButton canvasRef={canvasRef} />
       </CardFooter>
       <BorderBeam duration={8} size={100} />
     </Card>

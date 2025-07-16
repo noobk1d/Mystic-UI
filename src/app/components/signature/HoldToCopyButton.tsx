@@ -4,9 +4,8 @@ import { useHoldProgress } from "./useHoldProgress";
 import { ReactSketchCanvasRef } from "react-sketch-canvas";
 
 const HoldToCopyButton: React.FC<{
-  setCopied: (v: boolean) => void;
   canvasRef: React.RefObject<ReactSketchCanvasRef | null>;
-}> = ({ setCopied, canvasRef }) => {
+}> = ({ canvasRef }) => {
   const { progress, start, stop, finish } = useHoldProgress(2000);
   const downloadedRef = useRef(false);
   const TEXT = "Hold to download";
@@ -27,12 +26,13 @@ const HoldToCopyButton: React.FC<{
   useEffect(() => {
     if (progress === 1 && !downloadedRef.current) {
       downloadedRef.current = true;
-      setCopied(true);
       downloadPNG();
-      setTimeout(() => setCopied(false), 1200);
+      setTimeout(() => {
+        downloadedRef.current = false;
+      }, 1200);
       finish();
     }
-  }, [progress, finish, setCopied]);
+  }, [progress, finish]);
 
   return (
     <motion.button
