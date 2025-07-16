@@ -4,10 +4,9 @@ import { useHoldProgress } from "./useHoldProgress";
 import { ReactSketchCanvasRef } from "react-sketch-canvas";
 
 const HoldToCopyButton: React.FC<{
-  copied: boolean;
   setCopied: (v: boolean) => void;
   canvasRef: React.RefObject<ReactSketchCanvasRef | null>;
-}> = ({ copied, setCopied, canvasRef }) => {
+}> = ({ setCopied, canvasRef }) => {
   const { progress, start, stop, finish } = useHoldProgress(2000);
   const downloadedRef = useRef(false);
   const TEXT = "Hold to download";
