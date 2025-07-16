@@ -116,11 +116,7 @@ export function BorderCard({
             </svg>
           </Button>
         </div>
-        <HoldToCopyButton
-          canvasRef={canvasRef}
-          copied={copied}
-          setCopied={setCopied}
-        />
+        <HoldToCopyButton canvasRef={canvasRef} setCopied={setCopied} />
       </CardFooter>
       <BorderBeam duration={8} size={100} />
     </Card>
