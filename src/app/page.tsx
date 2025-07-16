@@ -1,7 +1,7 @@
 "use client";
 
 import "./globals.css";
-import { BorderCard } from "./components/signature/BorderCard";
+import BorderCard from "./components/signature/BorderCard";
 import { InteractiveGridPattern } from "./components/ui/interactive-grid-pattern";
 import { Button } from "./components/ui/button";
 import { useRef, useState } from "react";
