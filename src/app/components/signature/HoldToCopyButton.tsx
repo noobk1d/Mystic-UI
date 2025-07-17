@@ -1,38 +1,38 @@
 import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useHoldProgress } from "./useHoldProgress";
-import { ReactSketchCanvasRef } from "react-sketch-canvas";
 
 const HoldToCopyButton: React.FC<{
-  canvasRef: React.RefObject<ReactSketchCanvasRef | null>;
-}> = ({ canvasRef }) => {
-  const { progress, start, stop, finish } = useHoldProgress(2000);
+  onDownload: (progress?: number | "reset") => void;
+}> = ({ onDownload }) => {
+  const { progress, start, stop, finish } = useHoldProgress(1200);
   const downloadedRef = useRef(false);
+  const prevProgress = useRef(0);
   const TEXT = "Hold to download";
-
-  const downloadPNG = async () => {
-    if (!canvasRef.current) return;
-    const dataUrl = await canvasRef.current.exportImage("png");
-    const link = document.createElement("a");
-    link.href = dataUrl;
-    link.download = "signature.png";
-    link.click();
-  };
 
   useEffect(() => {
     if (progress === 0) downloadedRef.current = false;
   }, [progress]);
 
+  // Animate signature as progress changes
   useEffect(() => {
+    if (progress > 0 && progress < 1) {
+      onDownload(progress);
+    }
     if (progress === 1 && !downloadedRef.current) {
       downloadedRef.current = true;
-      downloadPNG();
+      onDownload(undefined); // Only triggers PNG download on hold complete
       setTimeout(() => {
         downloadedRef.current = false;
       }, 1200);
       finish();
     }
-  }, [progress, finish]);
+    // Only reset if we were animating and now progress is 0
+    if (prevProgress.current > 0 && progress === 0) {
+      onDownload("reset");
+    }
+    prevProgress.current = progress;
+  }, [progress, finish, onDownload]);
 
   return (
     <motion.button
